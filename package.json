@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Raiza-D/tinyapp/issues"
   },
-  "homepage": "https://github.com/Raiza-D/tinyapp#readme"
+  "homepage": "https://github.com/Raiza-D/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
 }
