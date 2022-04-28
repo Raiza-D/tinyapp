@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 
+function generateRandomString() {
+  return (Math.random() + 1).toString(36).substring(6);
+};
+
 app.set("view engine", "ejs");
 
 const bodyParser = require("body-parser");
