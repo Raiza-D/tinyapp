@@ -41,7 +41,8 @@ app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
-  console.log(urlDatabase);
+  res.redirect(`urls/${shortURL}`); // How did it know to use the urls_show template?
+  // console.log(urlDatabase);
   // res.redirect("/urls"); // To be changed (Part 2)
 });
 
