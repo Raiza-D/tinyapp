@@ -30,7 +30,7 @@ app.get("/hello", (req, res) => {
 
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
-  res.render("urls_index", templateVars);
+  res.render("urls_index", templateVars); // Show a certain view --> render. Pass variables into the view.
 });
 
 app.get("/urls/new", (req, res) => {
@@ -38,8 +38,11 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);
-  res.send("Ok");
+  const longURL = req.body.longURL;
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = longURL;
+  console.log(urlDatabase);
+  // res.redirect("/urls"); // To be changed (Part 2)
 });
 
 app.get("/urls/:shortURL", (req, res) => {
