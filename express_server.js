@@ -42,6 +42,9 @@ app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
   res.redirect(`urls/${shortURL}`); // How did it know to use the urls_show template?
+  // Line 44 is the same as running code within app.get("/urls/:shortURL").
+  // When code jumps to Line 44, it will know to run app.get("/urls/:shortURL") because
+  // of this part within Line 44: `urls/${shortURL}`
   // console.log(urlDatabase);
   // res.redirect("/urls"); // To be changed (Part 2)
 });
@@ -62,13 +65,21 @@ app.get("/u/:shortURL", (req, res) => {
       console.log("Cannot render page. Invalid shortURL");
       return res.redirect("http://www.google.com");
     }
-  res.redirect(longURL); // res.redirect(/error)
+  res.redirect(longURL); // res.redirect(/error) This will result in code jumping to Line 68.
 });
 
 app.get("/error", (req, res) => {
   res.render()// Create new  ejs template for an error). Or res.redirect to main page.
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+/* To handle error of user inputs an invalid shortURL:
+Path of ("/u/") render an error page that shows error message.
+Path of ("u/someinvalidshorturl") render error page.
+Rendering error page requires creating a new ejs template for handling errors and this page will
+display.
+Or re-direct to another page within app. Better to render an error page.
+*/
