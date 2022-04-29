@@ -41,7 +41,7 @@ app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
-  res.redirect(`urls/${shortURL}`); // How did it know to use the urls_show template?
+  res.redirect(`u/${shortURL}`); // How did it know to use the urls_show template?
   // console.log(urlDatabase);
   // res.redirect("/urls"); // To be changed (Part 2)
 });
@@ -49,6 +49,12 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL];
+  res.redirect(longURL);
 });
 
 app.listen(PORT, () => {
