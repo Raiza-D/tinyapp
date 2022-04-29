@@ -23,15 +23,17 @@
         </tr>
       </thead>
       <tbody>
-        <form method="POST" action="/urls/b2xVn2/delete"></form>
         <% for(let url in urls) { %>
-          <button type="button" class="btn btn-outline-danger">Delete</button>
-          <tr>
+          <tr>     
             <td><%= url %></td>
             <td><%= urls[url] %></td>
+            <td>
+              <form method="POST" action="/urls/b2xVn2/delete">
+              <button type="button" class="btn btn-outline-danger">Delete</button>
+              </form>
+            </td>
           </tr>
         <% } %>
-        </form>
       </tbody>
     </table>
   </main>
