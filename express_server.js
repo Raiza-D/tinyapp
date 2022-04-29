@@ -41,21 +41,33 @@ app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
-  res.redirect(`u/${shortURL}`); // How did it know to use the urls_show template?
+  res.redirect(`urls/${shortURL}`); // How did it know to use the urls_show template?
   // console.log(urlDatabase);
   // res.redirect("/urls"); // To be changed (Part 2)
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+  const templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL],
+  };
   res.render("urls_show", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL];
-  res.redirect(longURL);
+
+    if (!longURL) { // longURL === undefined
+      console.log("Cannot render page. Invalid shortURL");
+      return res.redirect("http://www.google.com");
+    }
+  res.redirect(longURL); // res.redirect(/error)
 });
+
+app.get("/error", (req, res) => {
+  res.render()// Create new  ejs template for an error). Or res.redirect to main page.
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
