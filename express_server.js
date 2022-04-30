@@ -78,14 +78,6 @@ app.post("/urls/:shortURL", (req, res) => {
   res.redirect("/urls");
 });
 
-// Handles request when user clicks 'Edit' on index page
-// app.post("/urls/:shortURL", (req, res) => { // Should this be a get request instead?
-//   const shortURL = req.params.shortURL;
-//   res.redirect(`/urls/${shortURL}`);
-// });
-
-// Handles post request to update longURL when user clicks 'Submit' on urls_show page
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
