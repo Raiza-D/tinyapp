@@ -1,3 +1,8 @@
+/* TO-DO BEFORE PROJECT SUBMISSION:
+-Refactor
+-Re-arrange order of get and post codes. Keep same paths together.
+*/
+
 const express = require("express");
 const app = express();
 const PORT = 8080;
