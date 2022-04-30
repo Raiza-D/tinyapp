@@ -8,14 +8,17 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 
-function generateRandomString() {
-  return (Math.random() + 1).toString(36).substring(6);
-};
-
 app.set("view engine", "ejs");
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+function generateRandomString() {
+  return (Math.random() + 1).toString(36).substring(6);
+};
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -83,6 +86,9 @@ app.post("/urls/:shortURL", (req, res) => {
   urlDatabase[shortURL] = revisedURL;
   res.redirect("/urls");
 });
+
+// Handles request to log in
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
