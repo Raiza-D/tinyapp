@@ -1,6 +1,7 @@
 /* TO-DO BEFORE PROJECT SUBMISSION:
 -Refactor
 -Re-arrange order of get and post codes. Keep same paths together.
+-Add comments where necessary
 */
 
 const express = require("express");
