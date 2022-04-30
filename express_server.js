@@ -34,12 +34,12 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-// Handle request when user clicks on 'Create New URL'
+// Handles request when user clicks on 'Create New URL'
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
-// Handle request when user 
+// Handles request when user clicks on Submit button to generate shortURL
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
@@ -47,6 +47,7 @@ app.post("/urls", (req, res) => {
   res.redirect(`urls/${shortURL}`);
 });
 
+// Handles request when user navigates to url_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
@@ -55,22 +56,25 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-app.post("/urls/:shortURL", (req, res) => {
-  const shortURL = req.params.shortURL;
-  const revisedURL = req.body.longURL;
-  urlDatabase[shortURL] = revisedURL;
-  res.redirect("/urls");
-});
-
+// Handles request when user specifies shortURL path on browser. User directed to longURL website
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL];
   res.redirect(longURL);
 });
 
+// Handles request when user clicks on delete button on index page
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
+  res.redirect("/urls");
+});
+
+// Handles request when user clicks on Submit button on urls_show page to update longURL
+app.post("/urls/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const revisedURL = req.body.longURL;
+  urlDatabase[shortURL] = revisedURL;
   res.redirect("/urls");
 });
 
