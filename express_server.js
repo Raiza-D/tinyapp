@@ -78,10 +78,8 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 // Handles request when user clicks on Submit button on urls_show page to update longURL
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const revisedURL = req.body.longURL; // Check where this is being saved
-  console.log(shortURL);
-  console.log(revisedURL);
-  urlDatabase["abc"] = "gmail.com";
+  const revisedURL = req.body.longURL;
+  urlDatabase[shortURL] = revisedURL;
   res.redirect("/urls");
 });
 
