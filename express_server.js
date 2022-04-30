@@ -47,7 +47,7 @@ app.post("/urls", (req, res) => {
   res.redirect(`urls/${shortURL}`);
 });
 
-// Handles request when user navigates to url_show page and displays user-provided shortURL
+// Handles request when user navigates to urls_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
