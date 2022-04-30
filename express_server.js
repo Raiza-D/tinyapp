@@ -64,9 +64,18 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 });
 
-app.post("/urls/:shortURL", (req, res) => {
+// Handles post request when user clicks 'Edit' on index page
+app.post("/urls/:shortURL", (req, res) => { // Should this be a get request instead?
   const shortURL = req.params.shortURL;
   res.redirect(`/urls/${shortURL}`);
+});
+
+// Handles post request to update longURL when user clicks 'Submit' on urls_show page
+app.post("/urls/:shortURL/edit", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const revisedURL = req.params.longURL;
+  urlDatabase[shortURL] = revisedURL;
+  res.redirect("/urls");
 });
 
 app.listen(PORT, () => {
