@@ -28,15 +28,18 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+// Handle request when user navigates to index page
 app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
 
+// Handle request when user clicks on 'Create New URL'
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+// Handle request when user 
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
@@ -52,6 +55,13 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.post("/urls/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const revisedURL = req.body.longURL;
+  urlDatabase[shortURL] = revisedURL;
+  res.redirect("/urls");
+});
+
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL];
@@ -64,19 +74,13 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 });
 
-// Handles post request when user clicks 'Edit' on index page
-app.post("/urls/:shortURL", (req, res) => { // Should this be a get request instead?
-  const shortURL = req.params.shortURL;
-  res.redirect(`/urls/${shortURL}`);
-});
+// Handles request when user clicks 'Edit' on index page
+// app.post("/urls/:shortURL", (req, res) => { // Should this be a get request instead?
+//   const shortURL = req.params.shortURL;
+//   res.redirect(`/urls/${shortURL}`);
+// });
 
 // Handles post request to update longURL when user clicks 'Submit' on urls_show page
-app.post("/urls/:shortURL/edit", (req, res) => {
-  const shortURL = req.params.shortURL;
-  const revisedURL = req.params.longURL;
-  urlDatabase[shortURL] = revisedURL;
-  res.redirect("/urls");
-});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
