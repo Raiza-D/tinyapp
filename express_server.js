@@ -88,7 +88,10 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 // Handles request to log in
-
+app.post("/login", (req, res) => {
+  res.cookie("username");
+  res.redirect("/urls");
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
