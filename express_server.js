@@ -42,6 +42,9 @@ app.get("/urls", (req, res) => {
   const templateVars = {
     urls: urlDatabase,
     username: req.cookies["username"]
+  };
+  if (!templateVars.username) {
+    templateVars.urls = [];
   }
   res.render("urls_index", templateVars);
 });
@@ -50,6 +53,9 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
   const templateVars = {
     username: req.cookies["username"]
+  };
+  if (!templateVars.username) {
+    return res.redirect("/urls");
   }
   res.render("urls_new", templateVars);
 });
@@ -69,7 +75,7 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
     username: req.cookies["username"]
   };
-  res.render("urls_show", templateVars);
+  res.render("urls_show", templateVars)
 });
 
 // Handles request when user specifies shortURL path on browser. User directed to longURL website
