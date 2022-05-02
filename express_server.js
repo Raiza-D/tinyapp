@@ -115,7 +115,10 @@ app.post("/logout", (req, res) => {
 
 // Handles request to register. Renders page with registration form
 app.get("/register", (req, res) => {
-  res.render("urls_register");
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("urls_register", templateVars);
 });
 
 app.listen(PORT, () => {
