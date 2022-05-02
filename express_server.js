@@ -134,6 +134,16 @@ app.get("/register", (req, res) => {
   res.render("urls_register", templateVars);
 });
 
+app.post("/register", (req, res) => {
+  const uniqueUserID = generateRandomString();
+  const userEmail = req.body.email;
+  const userPassword = req.body.password;
+  users[uniqueUserID] = { id: uniqueUserID, email: userEmail, password: userPassword }
+  console.log(users);
+  res.cookie("user_id", uniqueUserID);
+  res.redirect("/urls");
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
