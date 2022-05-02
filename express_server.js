@@ -134,6 +134,7 @@ app.get("/register", (req, res) => {
   res.render("urls_register", templateVars);
 });
 
+// Handles POST request when user clicks Submit button on register page
 app.post("/register", (req, res) => {
   const uniqueUserID = generateRandomString();
   const userEmail = req.body.email;
