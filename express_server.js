@@ -113,6 +113,7 @@ app.post("/logout", (req, res) => {
   res.redirect("/urls");
 });
 
+// Handles request to register. Renders page with registration form
 app.get("/register", (req, res) => {
   res.render("urls_register");
 });
