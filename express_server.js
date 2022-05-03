@@ -20,6 +20,15 @@ function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
 };
 
+function getUserByEmail(users, userEmail) {
+  for (const user in users) {
+    if (user.email === userEmail) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -142,15 +151,45 @@ app.get("/register", (req, res) => {
   }
 });
 
-// Handles POST request when user clicks Submit button on register page
+// Handles POST request when user clicks Register button on register page
 app.post("/register", (req, res) => {
-  const uniqueUserID = generateRandomString();
   const userEmail = req.body.email;
   const userPassword = req.body.password;
-  users[uniqueUserID] = { id: uniqueUserID, email: userEmail, password: userPassword }
+
+  let doesEmailExist = getUserByEmail(users, userEmail);
+
+  console.log(doesEmailExist);
   console.log(users);
+
+  if (userEmail === "" || userPassword === "") {
+    res.statusCode = 400;
+    console.log(
+      `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
+    return res.send(
+      `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
+    }
+
+  if (!doesEmailExist) {
+    res.statusCode = 400;
+    console.log(
+      `Error. Status code: ${res.statusCode}. Account already exists for this email.`
+    );
+    return res.send(
+      `Error. Status code: ${res.statusCode}. Account already exists for this email.`
+    );
+  }
+
+  const uniqueUserID = generateRandomString();
+
+  users[uniqueUserID] = {
+    id: uniqueUserID,
+    email: userEmail,
+    password: userPassword,
+  };
+  console.log(users);
+
   res.cookie("user_id", uniqueUserID);
-  res.redirect("/urls");
+    res.redirect("/urls");
 });
 
 app.listen(PORT, () => {
