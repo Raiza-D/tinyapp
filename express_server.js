@@ -21,8 +21,8 @@ function generateRandomString() {
 }
 
 function getUserByEmail(users, userEmail) {
-  for (const user_id in users) {
-    if (users[user_id]["email"] === userEmail) {
+  for (const userID in users) {
+    if (users[userID]["email"] === userEmail) {
       return true;
     }
   }
