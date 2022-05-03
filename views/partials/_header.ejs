@@ -11,10 +11,10 @@
         <a class="nav-item nav-link" href="/register">Register</a>
       </div>
     </div>
-    <% if (username) { %>
+    <% if (user) { %>
     <div>
       <form method="POST" action="/logout" style="display: flex">
-      <h5 style="margin-right: 10px; margin-top: 6px">Logged In As: <%= username %> User!</h5>
+      <h5 style="margin-right: 10px; margin-top: 6px">Logged In As: <%= user.email %> User!</h5>
       <button type="submit" class="btn btn-outline-dark">Logout</button>
       </form>
     </div>
