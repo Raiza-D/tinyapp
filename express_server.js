@@ -22,7 +22,6 @@ function generateRandomString() {
 
 function getUserByEmail(users, userEmail) {
   for (const user_id in users) {
-    console.log("Inside getUserByEmail:", user_id);
     if (users[user_id]["email"] === userEmail) {
       return true;
     }
@@ -157,7 +156,6 @@ app.post("/register", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 
-  console.log(userEmail, userPassword);
   let emailExists = getUserByEmail(users, userEmail);
 
   console.log(emailExists);
