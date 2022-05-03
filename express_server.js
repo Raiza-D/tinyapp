@@ -127,8 +127,23 @@ app.post("/urls/:shortURL", (req, res) => {
 
 // Handles request to log in
 app.post("/login", (req, res) => {
-  const userName = req.body.username;
-  res.cookie("user_id", userName);
+  const userEmail = req.body.email;
+  const userPassword = req.body.password;
+  
+  let emailExists = getUserByEmail(users, userEmail);
+
+  if (emailExists === false) {
+    res.statusCode = 403;
+    console.log(`Error. Status Code: ${res.statusCode}. Email cannot be found.`)
+    return res.send(
+      `Error. Status Code: ${res.statusCode}. Email cannot be found.`
+    );
+  }
+  
+
+  // Set cookie upon loggin in successfully
+  // res.cookie("user_id", userName);
+  
   res.redirect("/urls");
 });
 
