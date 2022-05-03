@@ -129,20 +129,28 @@ app.post("/urls/:shortURL", (req, res) => {
 app.post("/login", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  //const userID = users[userEmail];
   
   let emailExists = getUserByEmail(users, userEmail);
+  
+  //let correctPassword = users[userEmail]["password"];
 
   if (emailExists === false) {
     res.statusCode = 403;
-    console.log(`Error. Status Code: ${res.statusCode}. Email cannot be found.`)
+    console.log(`Error. Status Code: ${res.statusCode}. Email cannot be found.`);
     return res.send(
       `Error. Status Code: ${res.statusCode}. Email cannot be found.`
     );
   }
-  
 
-  // Set cookie upon loggin in successfully
-  // res.cookie("user_id", userName);
+  if (userPassword !== correctPassword) {
+    res.statusCode = 403;
+    console.log(`Error. Status Code: ${res.statusCode}. Password incorrect.`);
+    return res.send(`Error. Status Code: ${res.statusCode}. Password incorrect.`);
+  }
+
+  // Set cookie upon logging in successfully
+  // res.cookie("user_id", userID);
   
   res.redirect("/urls");
 });
