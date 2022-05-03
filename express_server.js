@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
-};
+}
 
 function getUserByEmail(users, userEmail) {
   for (const user_id in users) {
@@ -27,7 +27,7 @@ function getUserByEmail(users, userEmail) {
     }
   }
   return false;
-};
+}
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -100,7 +100,7 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
     user: users[userID]
   };
-  res.render("urls_show", templateVars)
+  res.render("urls_show", templateVars);
 });
 
 // Handles request when user specifies shortURL path on browser. User directed to longURL website
@@ -167,7 +167,7 @@ app.post("/register", (req, res) => {
       `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
     return res.send(
       `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
-    }
+  }
 
   if (emailExists === true) {
     res.statusCode = 400;
@@ -189,7 +189,7 @@ app.post("/register", (req, res) => {
   console.log(users);
 
   res.cookie("user_id", uniqueUserID);
-    res.redirect("/urls");
+  res.redirect("/urls");
 });
 
 app.get("/login", (req, res) => {
