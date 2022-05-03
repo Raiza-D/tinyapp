@@ -52,11 +52,12 @@ app.get("/hello", (req, res) => {
 
 // Handle request when user navigates to index page
 app.get("/urls", (req, res) => {
+  const userID = req.cookies["user_id"];
   const templateVars = {
     urls: urlDatabase,
-    username: req.cookies["username"]
+    user: users[userID]
   };
-  if (!templateVars.username) {
+  if (!templateVars.user) {
     templateVars.urls = [];
   }
   res.render("urls_index", templateVars);
@@ -64,10 +65,11 @@ app.get("/urls", (req, res) => {
 
 // Handles request when user clicks on 'Create New URL'
 app.get("/urls/new", (req, res) => {
+  const userID = req.cookies["user_id"];
   const templateVars = {
-    username: req.cookies["username"]
+    user: users[userID]
   };
-  if (!templateVars.username) {
+  if (!templateVars.user) {
     return res.redirect("/urls");
   }
   res.render("urls_new", templateVars);
@@ -83,10 +85,11 @@ app.post("/urls", (req, res) => {
 
 // Handles request when user navigates to urls_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
+  const userID = req.cookies["user_id"];
   const templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies["username"]
+    user: users[userID]
   };
   res.render("urls_show", templateVars)
 });
@@ -116,22 +119,27 @@ app.post("/urls/:shortURL", (req, res) => {
 // Handles request to log in
 app.post("/login", (req, res) => {
   const userName = req.body.username;
-  res.cookie("username", userName);
+  res.cookie("user_id", userName);
   res.redirect("/urls");
 });
 
 // Handles request to logout
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
 // Handles request to register. Renders page with registration form
 app.get("/register", (req, res) => {
+  const userID = req.cookies["user_id"];
   const templateVars = {
-    username: req.cookies["username"],
+    user: users[userID]
   };
-  res.render("urls_register", templateVars);
+  if (templateVars.user) {
+    res.redirect("/urls");
+  } else {
+    res.render("urls_register", templateVars);
+  }
 });
 
 // Handles POST request when user clicks Submit button on register page
