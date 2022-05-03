@@ -20,13 +20,13 @@ function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
 }
 
-function getUserByEmail(users, userEmail) {
-  for (const userID in users) {
-    if (users[userID]["email"] === userEmail) {
-      return true;
+function getUserByEmail(users, email) {
+  for (const user in users) {
+    // console.log("This is the user nested object", users[user]);
+    if (users[user]["email"] === email) {
+      return user;
     }
   }
-  return false;
 }
 
 const urlDatabase = {
@@ -127,21 +127,23 @@ app.post("/urls/:shortURL", (req, res) => {
 
 // Handles request to log in
 app.post("/login", (req, res) => {
-  const userEmail = req.body.email;
+  const email = req.body.email;
   const userPassword = req.body.password;
-  //const userID = users[userEmail];
   
-  let emailExists = getUserByEmail(users, userEmail);
+  let user = getUserByEmail(users, email);
+  // user = false (undefined)
+  // user = true (user object)
   
-  //let correctPassword = users[userEmail]["password"];
-
-  if (emailExists === false) {
+  if (!user) {
     res.statusCode = 403;
     console.log(`Error. Status Code: ${res.statusCode}. Email cannot be found.`);
     return res.send(
-      `Error. Status Code: ${res.statusCode}. Email cannot be found.`
+    `Error. Status Code: ${res.statusCode}. Email cannot be found.`
     );
   }
+  let correctPassword = users[user].password;
+  // console.log(user);
+  // console.log(correctPassword);
 
   if (userPassword !== correctPassword) {
     res.statusCode = 403;
@@ -150,7 +152,7 @@ app.post("/login", (req, res) => {
   }
 
   // Set cookie upon logging in successfully
-  // res.cookie("user_id", userID);
+  res.cookie("user_id", users[user].id);
   
   res.redirect("/urls");
 });
@@ -179,9 +181,9 @@ app.post("/register", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 
-  let emailExists = getUserByEmail(users, userEmail);
+  let user = getUserByEmail(users, userEmail);
 
-  console.log(emailExists);
+  console.log(user);
   console.log(users);
 
   if (userEmail === "" || userPassword === "") {
@@ -192,7 +194,7 @@ app.post("/register", (req, res) => {
       `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
   }
 
-  if (emailExists === true) {
+  if (user) {
     res.statusCode = 400;
     console.log(
       `Error. Status code: ${res.statusCode}. Account already exists for this email.`
