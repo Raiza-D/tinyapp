@@ -95,13 +95,21 @@ app.get("/urls/new", (req, res) => {
     user: users[userID]
   };
   if (!templateVars.user) {
-    return res.redirect("/urls");
+    return res.redirect("/login");
   }
   res.render("urls_new", templateVars);
 });
 
 // Handles request when user clicks on Submit button to generate shortURL
 app.post("/urls", (req, res) => {
+  const userID = req.cookies["user_id"];
+  const templateVars = {
+    user: users[userID]
+  };
+  if (!templateVars.user) {
+    return res.send("Error. Must login.\n");
+  }
+  
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
