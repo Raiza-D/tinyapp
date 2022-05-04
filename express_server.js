@@ -147,9 +147,6 @@ app.post("/login", (req, res) => {
   const passwordEntered = req.body.password;
 
   let userObj = authenticateUser(users, emailEntered, passwordEntered);
-  console.log("This is the user object: ", userObj);
-  // user = false (undefined)
-  // user = true (user object)
 
   if (!userObj) {
     res.statusCode = 403;
