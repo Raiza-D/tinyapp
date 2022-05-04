@@ -49,12 +49,11 @@ const getUrlsForUser = function(urlDatabase, userID) {
   const urls = {};
   for (const shortURL of urlDatabase) {
     if (shortURL[userID]) {
-      urls[userID] = userID;
+      urls.shortURL = userID;
     }
   }
   return urls;
 };
-
 
 const urlDatabase = {
   b2xVn2: {
