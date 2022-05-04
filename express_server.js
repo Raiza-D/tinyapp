@@ -20,11 +20,23 @@ function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
 }
 
+// Function scans users object and checks if email entered upon registering or logging in exists
 function getUserByEmail(users, email) {
   for (const user in users) {
     // console.log("This is the user nested object", users[user]);
-    if (users[user]["email"] === email) {
-      return user;
+    if (users[user].email === email) {
+      return users[user];
+    }
+  }
+}
+
+// Function to authenticate user when logging in
+function authenticateUser(users, emailEntered, passwordEntered) {
+  for (const user in users) {
+    let userFound = getUserByEmail(users, emailEntered);
+    console.log("This is the user we found: ", userFound);
+    if (userFound && userFound.password === passwordEntered) {
+      return users[user];
     }
   }
 }
@@ -127,33 +139,27 @@ app.post("/urls/:shortURL", (req, res) => {
 
 // Handles request to log in
 app.post("/login", (req, res) => {
-  const email = req.body.email;
-  const userPassword = req.body.password;
-  
-  let user = getUserByEmail(users, email);
+  const emailEntered = req.body.email;
+  const passwordEntered = req.body.password;
+
+  // let user = getUserByEmail(users, email);
+  let userObj = authenticateUser(users, emailEntered, passwordEntered);
+  console.log("This is the user object: ", userObj);
   // user = false (undefined)
   // user = true (user object)
-  
-  if (!user) {
-    res.statusCode = 403;
-    console.log(`Error. Status Code: ${res.statusCode}. Email cannot be found.`);
-    return res.send(
-    `Error. Status Code: ${res.statusCode}. Email cannot be found.`
-    );
-  }
-  let correctPassword = users[user].password;
-  // console.log(user);
-  // console.log(correctPassword);
 
-  if (userPassword !== correctPassword) {
+  if (!userObj) {
     res.statusCode = 403;
-    console.log(`Error. Status Code: ${res.statusCode}. Password incorrect.`);
-    return res.send(`Error. Status Code: ${res.statusCode}. Password incorrect.`);
+    console.log(
+      `Error. Status Code: ${res.statusCode}. Credentials invalid.`
+    );
+    return res.send(
+      `Error. Status Code: ${res.statusCode}. Credentials invalid.`
+    );
   }
 
   // Set cookie upon logging in successfully
-  res.cookie("user_id", users[user].id);
-  
+  res.cookie("user_id", userObj.id);
   res.redirect("/urls");
 });
 
