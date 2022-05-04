@@ -45,6 +45,17 @@ function authenticateUser(users, emailEntered, passwordEntered) {
   }
 }
 
+const getUrlsForUser = function(urlDatabase, userID) {
+  const urls = {};
+  for (const shortURL of urlDatabase) {
+    if (shortURL[userID]) {
+      urls[userID] = userID;
+    }
+  }
+  return urls;
+};
+
+
 const urlDatabase = {
   b2xVn2: {
     longURL: "http://www.lighthouselabs.ca",
@@ -116,25 +127,26 @@ app.post("/urls", (req, res) => {
 
   const longURL = req.body.longURL;
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = longURL;
+  const url = { longURL, userID };
+  urlDatabase[shortURL] = url;
   res.redirect(`/urls/${shortURL}`);
 });
 
 // Handles request when user navigates to urls_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.cookies["user_id"];
-  const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
-    user: users[userID]
-  };
+  const user = users[userID];
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL].longURL;
+
+  const templateVars = { shortURL, longURL, user };
   res.render("urls_show", templateVars);
 });
 
 // Handles request when user specifies shortURL path on browser. User directed to longURL website
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[shortURL];
+  const longURL = urlDatabase[shortURL].longURL;
   res.redirect(longURL);
 });
 
@@ -149,7 +161,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const revisedURL = req.body.longURL;
-  urlDatabase[shortURL] = revisedURL;
+  urlDatabase[shortURL].longURL = revisedURL;
   res.redirect("/urls");
 });
 
