@@ -20,17 +20,22 @@ function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
 }
 
-// Function scans users object and checks if email entered upon registering or logging in exists
+/* Function scans users object. Checks if email entered upon registering or logging in exists.
+If yes, return user nested object within users database.
+If no, value is 'undefined' */
 function getUserByEmail(users, email) {
   for (const user in users) {
-    // console.log("This is the user nested object", users[user]);
     if (users[user].email === email) {
       return users[user];
     }
   }
 }
 
-// Function to authenticate user when logging in
+/* Function to authenticate user when logging in. Loops through users object.
+Calls getUserByEmail to check if user email exists.
+If yes, then compare password stored in database and compare with password entered.
+Returns user nested object within users database.
+If no, value return is 'undefined.' */
 function authenticateUser(users, emailEntered, passwordEntered) {
   for (const user in users) {
     let userFound = getUserByEmail(users, emailEntered);
@@ -142,7 +147,6 @@ app.post("/login", (req, res) => {
   const emailEntered = req.body.email;
   const passwordEntered = req.body.password;
 
-  // let user = getUserByEmail(users, email);
   let userObj = authenticateUser(users, emailEntered, passwordEntered);
   console.log("This is the user object: ", userObj);
   // user = false (undefined)
