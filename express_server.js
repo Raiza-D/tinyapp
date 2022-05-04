@@ -151,15 +151,15 @@ app.post("/login", (req, res) => {
   if (!userObj) {
     res.statusCode = 403;
     console.log(
-      `Error. Status Code: ${res.statusCode}. Credentials invalid.`
+      `Error. Status Code: ${res.statusCode}. Invalid credentials.`
     );
     return res.send(
-      `Error. Status Code: ${res.statusCode}. Credentials invalid.`
+      `Error. Status Code: ${res.statusCode}. Invalid credentials.`
     );
   }
 
   // Set cookie upon logging in successfully
-  res.cookie("user_id", userObj.id); // We're now looking at the nested users object stored in userObj variable
+  res.cookie("user_id", userObj.id);
   res.redirect("/urls");
 });
 
