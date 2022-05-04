@@ -39,7 +39,6 @@ If no, value return is 'undefined.' */
 function authenticateUser(users, emailEntered, passwordEntered) {
   for (const user in users) {
     let userFound = getUserByEmail(users, emailEntered);
-    console.log("This is the user we found: ", userFound);
     if (userFound && userFound.password === passwordEntered) {
       return users[user];
     }
