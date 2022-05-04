@@ -159,7 +159,7 @@ app.post("/login", (req, res) => {
   }
 
   // Set cookie upon logging in successfully
-  res.cookie("user_id", userObj.id);
+  res.cookie("user_id", userObj.id); // We're now looking at the nested users object stored in userObj variable
   res.redirect("/urls");
 });
 
