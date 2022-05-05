@@ -146,7 +146,7 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
 
-  if (!shortURL) {
+  if (!urlDatabase[shortURL]) {
     return res.send("shortURL entered invalid.");
   }
 
