@@ -2,6 +2,7 @@
 -Refactor
 -Re-arrange order of get and post codes. Keep same paths together.
 -Add comments where necessary
+-Remove users and their none hashed passwords in the users object
 */
 
 const express = require("express");
