@@ -2,7 +2,6 @@
 -Refactor
 -Re-arrange order of get and post codes. Keep same paths together.
 -Add comments where necessary
--Remove users and their none hashed passwords in the users object
 */
 
 const express = require("express");
@@ -197,7 +196,6 @@ app.post("/urls/:shortURL", (req, res) => {
 
   const shortURL = req.params.shortURL;
   const revisedURL = req.body.longURL;
-  console.log("Test :", shortURL, revisedURL);
   urlDatabase[shortURL].longURL = revisedURL;
   res.redirect("/urls");
 });
