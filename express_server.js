@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+const bcrypt = require("bcryptjs");
+
+
 function generateRandomString() {
   return (Math.random() + 1).toString(36).substring(6);
 }
@@ -237,6 +240,7 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  const hashedPassword = bcrypt.hashSync(userPassword, 10);
 
   let user = getUserByEmail(users, userEmail);
 
@@ -266,7 +270,7 @@ app.post("/register", (req, res) => {
   users[uniqueUserID] = {
     id: uniqueUserID,
     email: userEmail,
-    password: userPassword,
+    password: hashedPassword,
   };
   console.log(users);
 
