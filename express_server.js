@@ -41,7 +41,7 @@ Returns user nested object within users database.
 If no, value return is 'undefined.' */
 function authenticateUser(users, emailEntered, passwordEntered) {
   let userFound = getUserByEmail(users, emailEntered);
-  if (userFound && userFound.password === passwordEntered) {
+  if (userFound && bcrypt.compareSync(passwordEntered, userFound.password)) {
     return userFound;
  }
 }
@@ -204,12 +204,8 @@ app.post("/login", (req, res) => {
 
   if (!userObj) {
     res.statusCode = 403;
-    console.log(
-      `Error. Status Code: ${res.statusCode}. Invalid credentials.`
-    );
-    return res.send(
-      `Error. Status Code: ${res.statusCode}. Invalid credentials.`
-    );
+    console.log(`Error. Status Code: ${res.statusCode}. Invalid credentials.`);
+    return res.send(`Error. Status Code: ${res.statusCode}. Invalid credentials.`);
   }
 
   // Set cookie upon logging in successfully
