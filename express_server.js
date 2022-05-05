@@ -145,6 +145,11 @@ app.get("/urls/:shortURL", (req, res) => {
 // Handles request when user specifies shortURL path on browser. User directed to longURL website
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
+
+  if (!shortURL) {
+    return res.send("shortURL entered invalid.");
+  }
+
   const longURL = urlDatabase[shortURL].longURL;
   res.redirect(longURL);
 });
