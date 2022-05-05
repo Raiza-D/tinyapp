@@ -121,7 +121,7 @@ app.post("/urls", (req, res) => {
   const userID = req.cookies["user_id"];
   const loggedInUser = users[userID];
   if (!loggedInUser) {
-    return res.status(401).send("Error. Must login.\n");
+    return res.status(401).send("Error. Must login or register for an account.\n");
   }
 
   const longURL = req.body.longURL;
@@ -134,6 +134,14 @@ app.post("/urls", (req, res) => {
 // Handles request when user navigates to urls_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.cookies["user_id"];
+
+  const loggedInUser = users[userID];
+  if (!loggedInUser) {
+    return res
+      .status(401)
+      .send("Error. Must login or register for an account.\n");
+  }
+
   const user = users[userID];
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL].longURL;
@@ -156,15 +164,30 @@ app.get("/u/:shortURL", (req, res) => {
 
 // Handles request when user clicks on delete button on index page
 app.post("/urls/:shortURL/delete", (req, res) => {
+  const userID = req.cookies["user_id"];
+  const loggedInUser = users[userID];
+  if (!loggedInUser) {
+    return res.status(401).send("Error. Must login or register for an account.\n");
+  }
+
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
   res.redirect("/urls");
 });
 
-// Handles request when user clicks on Submit button on urls_show page to update longURL
+// Handles request when user clicks on Edit button on urls_show page to update longURL
 app.post("/urls/:shortURL", (req, res) => {
+  const userID = req.cookies["user_id"];
+  const loggedInUser = users[userID];
+  if (!loggedInUser) {
+    return res
+      .status(401)
+      .send("Error. Must login or register for an account.\n");
+  }
+
   const shortURL = req.params.shortURL;
   const revisedURL = req.body.longURL;
+  console.log("Test :", shortURL, revisedURL);
   urlDatabase[shortURL].longURL = revisedURL;
   res.redirect("/urls");
 });
