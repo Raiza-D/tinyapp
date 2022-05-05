@@ -14,8 +14,16 @@ app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
+// const cookieParser = require("cookie-parser");
+// app.use(cookieParser());
+
+const cookieSession = require("cookie-session");
+app.use(
+  cookieSession({
+    name: "session",
+    keys:  ["abc123", "random"]
+  })
+);
 
 const bcrypt = require("bcryptjs");
 
@@ -69,15 +77,15 @@ const urlDatabase = {
 };
 
 const users = {
-  "userRandomID": {
+  userRandomID: {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
   },
-  "user2RandomID": {
+  user2RandomID: {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "diswasher-funk"
+    password: bcrypt.hashSync("dishwasher-funk", 10)
   }
 };
 
@@ -95,7 +103,7 @@ app.get("/hello", (req, res) => {
 
 // Handle request when user navigates to index page
 app.get("/urls", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   let userUrls = getUrlsForUser(urlDatabase, userID);
   
   const templateVars = {
@@ -110,7 +118,7 @@ app.get("/urls", (req, res) => {
 
 // Handles request when user clicks on 'Create New URL'
 app.get("/urls/new", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const templateVars = {
     user: users[userID]
   };
@@ -122,7 +130,7 @@ app.get("/urls/new", (req, res) => {
 
 // Handles request when user clicks on Submit button to generate shortURL
 app.post("/urls", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const loggedInUser = users[userID];
   if (!loggedInUser) {
     return res.status(401).send("Error. Must login or register for an account.\n");
@@ -137,7 +145,7 @@ app.post("/urls", (req, res) => {
 
 // Handles request when user navigates to urls_show page and displays user-provided shortURL
 app.get("/urls/:shortURL", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
 
   const loggedInUser = users[userID];
   if (!loggedInUser) {
@@ -168,7 +176,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 // Handles request when user clicks on delete button on index page
 app.post("/urls/:shortURL/delete", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const loggedInUser = users[userID];
   if (!loggedInUser) {
     return res.status(401).send("Error. Must login or register for an account.\n");
@@ -181,7 +189,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 // Handles request when user clicks on Edit button on urls_show page to update longURL
 app.post("/urls/:shortURL", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const loggedInUser = users[userID];
   if (!loggedInUser) {
     return res
@@ -210,19 +218,19 @@ app.post("/login", (req, res) => {
   }
 
   // Set cookie upon logging in successfully
-  res.cookie("user_id", userObj.id);
+  req.session.user_id = userObj.id;
   res.redirect("/urls");
 });
 
 // Handles request to logout
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id");
+  req.session = null;
   res.redirect("/urls");
 });
 
 // Handles request to register. Renders page with registration form
 app.get("/register", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const templateVars = {
     user: users[userID]
   };
@@ -271,12 +279,12 @@ app.post("/register", (req, res) => {
   };
   console.log(users);
 
-  res.cookie("user_id", uniqueUserID);
+  req.session.user_id = uniqueUserID;
   res.redirect("/urls");
 });
 
 app.get("/login", (req, res) => {
-  const userID = req.cookies["user_id"];
+  const userID = req.session.user_id;
   const templateVars = {
     user: users[userID],
   };
