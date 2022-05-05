@@ -37,23 +37,33 @@ If yes, then compare password stored in database and compare with password enter
 Returns user nested object within users database.
 If no, value return is 'undefined.' */
 function authenticateUser(users, emailEntered, passwordEntered) {
-  for (const user in users) {
-    let userFound = getUserByEmail(users, emailEntered);
-    if (userFound && userFound.password === passwordEntered) {
-      return users[user];
-    }
-  }
+  let userFound = getUserByEmail(users, emailEntered);
+  if (userFound && userFound.password === passwordEntered) {
+    return userFound;
+ }
 }
 
 const getUrlsForUser = function(urlDatabase, userID) {
   const urls = {};
-  for (const shortURL of urlDatabase) {
-    if (shortURL[userID]) {
-      urls.shortURL = userID;
+  for (const shortURL in urlDatabase) {
+    if (urlDatabase[shortURL].userID === userID) {
+      urls[shortURL] = { longURL: urlDatabase[shortURL].longURL };
     }
   }
   return urls;
 };
+
+// const urls = {
+//   shortURL: {
+//     longURL: "https..."
+//   }
+//   anothershortURL: {
+//     longURL: "https..."
+//   },
+//   thirdshortURL: {
+//     longURL: "https..."
+//   }
+// }
 
 const urlDatabase = {
   b2xVn2: {
@@ -62,7 +72,7 @@ const urlDatabase = {
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
-    userID: "userRandomID"
+    userID: "user2RandomID"
   }
 };
 
@@ -94,8 +104,10 @@ app.get("/hello", (req, res) => {
 // Handle request when user navigates to index page
 app.get("/urls", (req, res) => {
   const userID = req.cookies["user_id"];
+  let userUrls = getUrlsForUser(urlDatabase, userID);
+  
   const templateVars = {
-    urls: urlDatabase,
+    urls: userUrls,
     user: users[userID]
   };
   if (!templateVars.user) {
