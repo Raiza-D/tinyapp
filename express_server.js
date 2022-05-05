@@ -53,18 +53,6 @@ const getUrlsForUser = function(urlDatabase, userID) {
   return urls;
 };
 
-// const urls = {
-//   shortURL: {
-//     longURL: "https..."
-//   }
-//   anothershortURL: {
-//     longURL: "https..."
-//   },
-//   thirdshortURL: {
-//     longURL: "https..."
-//   }
-// }
-
 const urlDatabase = {
   b2xVn2: {
     longURL: "http://www.lighthouselabs.ca",
