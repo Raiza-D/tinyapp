@@ -102,8 +102,7 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
-// Handles request when user navigates to specific short URL page.
-// Displays user-provided short URL
+// Handles request when user navigates to specified short URL page
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.session.user_id;
   const loggedInUser = users[userID];
@@ -120,7 +119,7 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-// Handles request when user navigates to /u/:shortURL path on browser.
+// Handles request when user navigates to /u/:shortURL path on browser
 // User directed to longURL website
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
@@ -137,6 +136,7 @@ app.get("/u/:shortURL", (req, res) => {
 app.post("/urls/:shortURL/delete", (req, res) => {
   const userID = req.session.user_id;
   const loggedInUser = users[userID];
+
   if (!loggedInUser) {
     return res.status(401).send("Error. Must login or register for an account.\n");
   }
@@ -150,6 +150,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 app.post("/urls/:shortURL", (req, res) => {
   const userID = req.session.user_id;
   const loggedInUser = users[userID];
+
   if (!loggedInUser) {
     return res.status(401).send("Error. Must login or register for an account.\n");
   }
@@ -169,7 +170,6 @@ app.post("/login", (req, res) => {
 
   if (!userObj) {
     res.statusCode = 403;
-    console.log(`Error. Status Code: ${res.statusCode}. Invalid credentials.`);
     return res.send(`Error. Status Code: ${res.statusCode}. Invalid credentials.`);
   }
 
@@ -199,7 +199,7 @@ app.get("/register", (req, res) => {
   }
 });
 
-// Handles POST request when user clicks Register button on register page
+// Handles request when user clicks Register button on register page
 app.post("/register", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
