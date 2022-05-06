@@ -1,6 +1,6 @@
 const { assert } = require("chai");
 
-const { generateRandomString, getUserByEmail } = require("../helpers.js");
+const { generateRandomString, getUserByEmail, getUrlsForUser } = require("../helpers.js");
 
 const testUsers = {
   userRandomID: {
@@ -13,6 +13,23 @@ const testUsers = {
     email: "user2@example.com",
     password: "dishwasher-funk",
   },
+};
+
+const testUrlDatabase = {
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userID: "userRandomID"
+  },
+
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userID: "user2RandomID"
+  },
+
+  "k71hb9": {
+    longURL: "https://www.thelasthunt.com/",
+    userID: "userRandomID"
+  }
 };
 
 
@@ -40,4 +57,19 @@ describe("getUserByEmail", function() {
     assert.equal(user, expectedOutput);
   });
 
+});
+
+describe("getUrlsForUser", function () {
+  it("should return an object if there are urls in the database belonging to a given user", function () {
+    const urls = getUrlsForUser(testUrlDatabase, "userRandomID");
+    const expectedUrls = {
+      b2xVn2: {
+        longURL: "http://www.lighthouselabs.ca",
+      },
+      "k71hb9": {
+        longURL: "https://www.thelasthunt.com/"
+      }
+    }
+    assert.deepEqual(urls, expectedUrls);
+  });
 });
