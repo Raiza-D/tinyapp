@@ -18,7 +18,6 @@ const testUsers = {
 describe("getUserByEmail", function() {
   it("should return the user object that contains the valid email", function() {
     const user = getUserByEmail("user@example.com", testUsers);
-    console.log(user);
     const expectedValidUser = {
       id: "userRandomID",
       email: "user@example.com",
@@ -29,7 +28,6 @@ describe("getUserByEmail", function() {
 
   it("should return null if the email does not exist within our users database", function() {
     const user = getUserByEmail("someperson@gmail.com", testUsers);
-    console.log(user);
     const expectedOutput = null;
     assert.equal(user, expectedOutput);
   });
