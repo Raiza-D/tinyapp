@@ -30,6 +30,8 @@ const authenticateUser = function(users, emailEntered, passwordEntered) {
   return null;
 };
 
+// Checks urlDatabase for any shortURLs that belong to given userID.
+// Adds those URLS into empty urls object and returns final urls object
 const getUrlsForUser = function(urlDatabase, userID) {
   const urls = {};
   for (const shortURL in urlDatabase) {
