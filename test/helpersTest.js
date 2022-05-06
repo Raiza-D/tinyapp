@@ -59,8 +59,8 @@ describe("getUserByEmail", function() {
 
 });
 
-describe("getUrlsForUser", function () {
-  it("should return an object if there are urls in the database belonging to a given user", function () {
+describe("getUrlsForUser", function() {
+  it("should return an object if there are urls in the database belonging to a given user", function() {
     const urls = getUrlsForUser(testUrlDatabase, "userRandomID");
     const expectedUrls = {
       b2xVn2: {
@@ -70,6 +70,12 @@ describe("getUrlsForUser", function () {
         longURL: "https://www.thelasthunt.com/"
       }
     }
+    assert.deepEqual(urls, expectedUrls);
+  });
+
+  it("should return an empty object {} if there are NO urls in the database for a specified user", function() {
+    const urls = getUrlsForUser(testUrlDatabase, "a8n7rx");
+    const expectedUrls = {}
     assert.deepEqual(urls, expectedUrls);
   });
 });
