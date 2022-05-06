@@ -1,6 +1,6 @@
 const { assert } = require("chai");
 
-const { generateRandomString, getUserByEmail } = require("../helpers.js");
+const { generateRandomString, getUserByEmail, authenticateUser } = require("../helpers.js");
 
 const testUsers = {
   userRandomID: {
@@ -14,6 +14,19 @@ const testUsers = {
     password: "dishwasher-funk",
   },
 };
+
+describe("authenticateUser", function () {
+  it("should return the corresponding user object if email exists and password correct", function() {
+    const user = authenticateUser(testUsers, "user@example.com", "purple-monkey-dinosaur");
+    const expectedUser = {
+      id: "userRandomID",
+      email: "user@example.com",
+      password: "purple-monkey-dinosaur",
+    }
+    assert.deepEqual(user, expectedUser);
+  });
+});
+
 
 describe("generateRandomString", function() {
   it("should return a random alphanumeric string", function() {
