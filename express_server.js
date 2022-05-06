@@ -24,7 +24,7 @@ app.use(
 
 const bcrypt = require("bcryptjs");
 
-const { getUserByEmail, generateRandomString } = require("./helpers.js");
+const { generateRandomString, getUserByEmail } = require("./helpers.js");
 
 /* Function to authenticate user when logging in. Loops through users object.
 Calls getUserByEmail to check if user email exists.
