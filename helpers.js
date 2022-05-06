@@ -1,7 +1,9 @@
 /* Contains all helper functions */
 
+const bcrypt = require("bcryptjs");
+
 // Generates random alphanumeric string
-const generateRandomString = function () {
+const generateRandomString = function() {
   return (Math.random() + 1).toString(36).substring(6);
 };
 
@@ -28,9 +30,20 @@ const authenticateUser = function(users, emailEntered, passwordEntered) {
   return null;
 };
 
+const getUrlsForUser = function(urlDatabase, userID) {
+  const urls = {};
+  for (const shortURL in urlDatabase) {
+    if (urlDatabase[shortURL].userID === userID) {
+      urls[shortURL] = { longURL: urlDatabase[shortURL].longURL };
+    }
+  }
+  return urls;
+};
+
 
 module.exports = {
   generateRandomString,
   getUserByEmail,
-  authenticateUser
+  authenticateUser,
+  getUrlsForUser
 };
