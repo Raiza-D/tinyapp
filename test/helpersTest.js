@@ -18,7 +18,6 @@ const testUsers = {
 describe("generateRandomString", function() {
   it("should return a random alphanumeric string", function() {
     const alphaNum = generateRandomString();
-    console.log(alphaNum);
     assert.isString(alphaNum);
   });
 });
