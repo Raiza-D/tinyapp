@@ -1,9 +1,3 @@
-/* TO-DO BEFORE PROJECT SUBMISSION:
--Refactor
--Re-arrange order of get and post codes. Keep same paths together.
--Add comments where necessary
-*/
-
 const express = require("express");
 const app = express();
 const PORT = 8080;
@@ -12,7 +6,6 @@ app.set("view engine", "ejs");
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 const cookieSession = require("cookie-session");
 app.use(
@@ -25,7 +18,6 @@ app.use(
 const bcrypt = require("bcryptjs");
 
 const { generateRandomString, getUserByEmail, authenticateUser, getUrlsForUser } = require("./helpers.js");
-
 
 const urlDatabase = {
   b2xVn2: {
@@ -66,6 +58,7 @@ app.get("/hello", (req, res) => {
 // Handle request when user navigates to index page
 app.get("/urls", (req, res) => {
   const userID = req.session.user_id;
+
   let userUrls = getUrlsForUser(urlDatabase, userID);
   
   const templateVars = {
@@ -84,9 +77,11 @@ app.get("/urls/new", (req, res) => {
   const templateVars = {
     user: users[userID]
   };
+
   if (!templateVars.user) {
     return res.redirect("/login");
   }
+
   res.render("urls_new", templateVars);
 });
 
@@ -94,6 +89,7 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   const userID = req.session.user_id;
   const loggedInUser = users[userID];
+
   if (!loggedInUser) {
     return res.status(401).send("Error. Must login or register for an account.\n");
   }
@@ -102,29 +98,30 @@ app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   const url = { longURL, userID };
   urlDatabase[shortURL] = url;
+
   res.redirect(`/urls/${shortURL}`);
 });
 
-// Handles request when user navigates to urls_show page and displays user-provided shortURL
+// Handles request when user navigates to specific short URL page.
+// Displays user-provided short URL
 app.get("/urls/:shortURL", (req, res) => {
   const userID = req.session.user_id;
-
   const loggedInUser = users[userID];
+
   if (!loggedInUser) {
-    return res
-      .status(401)
-      .send("Error. Must login or register for an account.\n");
+    return res.status(401).send("Error. Must login or register for an account.\n");
   }
 
   const user = users[userID];
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL].longURL;
-
   const templateVars = { shortURL, longURL, user };
+
   res.render("urls_show", templateVars);
 });
 
-// Handles request when user specifies shortURL path on browser. User directed to longURL website
+// Handles request when user navigates to /u/:shortURL path on browser.
+// User directed to longURL website
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
 
@@ -154,9 +151,7 @@ app.post("/urls/:shortURL", (req, res) => {
   const userID = req.session.user_id;
   const loggedInUser = users[userID];
   if (!loggedInUser) {
-    return res
-      .status(401)
-      .send("Error. Must login or register for an account.\n");
+    return res.status(401).send("Error. Must login or register for an account.\n");
   }
 
   const shortURL = req.params.shortURL;
@@ -165,7 +160,7 @@ app.post("/urls/:shortURL", (req, res) => {
   res.redirect("/urls");
 });
 
-// Handles request to log in
+// Handles request to login
 app.post("/login", (req, res) => {
   const emailEntered = req.body.email;
   const passwordEntered = req.body.password;
@@ -180,6 +175,7 @@ app.post("/login", (req, res) => {
 
   // Set cookie upon logging in successfully
   req.session.user_id = userObj.id;
+  
   res.redirect("/urls");
 });
 
@@ -195,6 +191,7 @@ app.get("/register", (req, res) => {
   const templateVars = {
     user: users[userID]
   };
+
   if (templateVars.user) {
     res.redirect("/urls");
   } else {
