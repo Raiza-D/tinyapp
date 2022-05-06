@@ -212,20 +212,12 @@ app.post("/register", (req, res) => {
 
   if (userEmail === "" || userPassword === "") {
     res.statusCode = 400;
-    console.log(
-      `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
-    return res.send(
-      `Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
+    return res.send(`Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
   }
 
   if (user) {
     res.statusCode = 400;
-    console.log(
-      `Error. Status code: ${res.statusCode}. Account already exists for this email.`
-    );
-    return res.send(
-      `Error. Status code: ${res.statusCode}. Account already exists for this email.`
-    );
+    return res.send(`Error. Status code: ${res.statusCode}. Account already exists for this email.`);
   }
 
   const uniqueUserID = generateRandomString();
@@ -235,8 +227,7 @@ app.post("/register", (req, res) => {
     email: userEmail,
     password: hashedPassword,
   };
-  console.log(users);
-
+  
   req.session.user_id = uniqueUserID;
   res.redirect("/urls");
 });
