@@ -36,7 +36,7 @@ If yes, then compare password stored in database and compare with password enter
 Returns user nested object within users database.
 If no, value return is 'undefined.' */
 const authenticateUser = function(users, emailEntered, passwordEntered) {
-  let userFound = getUserByEmail(users, emailEntered);
+  let userFound = getUserByEmail(emailEntered, users);
   if (userFound && bcrypt.compareSync(passwordEntered, userFound.password)) {
     return userFound;
  }
@@ -233,7 +233,7 @@ app.post("/register", (req, res) => {
   const userPassword = req.body.password;
   const hashedPassword = bcrypt.hashSync(userPassword, 10);
 
-  let user = getUserByEmail(users, userEmail);
+  let user = getUserByEmail(userEmail, users);
 
   console.log(user);
   console.log(users);
