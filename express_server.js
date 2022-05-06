@@ -24,15 +24,14 @@ app.use(
 
 const bcrypt = require("bcryptjs");
 
-
-function generateRandomString() {
+const generateRandomString = function() {
   return (Math.random() + 1).toString(36).substring(6);
 }
 
 /* Function scans users object. Checks if email entered upon registering or logging in exists.
 If yes, return user nested object within users database.
 If no, value is 'undefined' */
-function getUserByEmail(users, email) {
+const getUserByEmail = function(users, email) {
   for (const user in users) {
     if (users[user].email === email) {
       return users[user];
@@ -47,7 +46,7 @@ Calls getUserByEmail to check if user email exists.
 If yes, then compare password stored in database and compare with password entered.
 Returns user nested object within users database.
 If no, value return is 'undefined.' */
-function authenticateUser(users, emailEntered, passwordEntered) {
+const authenticateUser = function(users, emailEntered, passwordEntered) {
   let userFound = getUserByEmail(users, emailEntered);
   if (userFound && bcrypt.compareSync(passwordEntered, userFound.password)) {
     return userFound;
