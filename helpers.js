@@ -1,5 +1,10 @@
 /* Contains all helper functions */
 
+// Generates random alphanumeric string
+const generateRandomString = function () {
+  return (Math.random() + 1).toString(36).substring(6);
+};
+
 /* Function scans users object. Checks if email entered upon registering or logging in exists.
 If yes, return user nested object within users database.
 If no, value is 'undefined' */
@@ -14,5 +19,6 @@ const getUserByEmail = function(email, users) {
 };
 
 module.exports = {
+  generateRandomString,
   getUserByEmail
 };
