@@ -16,10 +16,15 @@ const testUsers = {
 };
 
 describe("getUserByEmail", function() {
-  it("should return a user with a valid email", function() {
-    const user = getUserByEmail(testUsers, "user@example.com");
-    const expectedUserID = "userRandomID";
-    assert.deepEqual(user, expectedUserID);
+  it("should return the user object that contains the valid email", function() {
+    const user = getUserByEmail("user@example.com", testUsers);
+    console.log(user);
+    const expectedValidUser = {
+      id: "userRandomID",
+      email: "user@example.com",
+      password: "purple-monkey-dinosaur"
+    }
+    assert.deepEqual(user, expectedValidUser);
   });
 
   it("should return null if the email does not exist within our users database", function() {
