@@ -36,6 +36,7 @@ const authenticateUser = function(users, emailEntered, passwordEntered) {
   if (userFound && bcrypt.compareSync(passwordEntered, userFound.password)) {
     return userFound;
  }
+ return null;
 }
 
 const getUrlsForUser = function(urlDatabase, userID) {
