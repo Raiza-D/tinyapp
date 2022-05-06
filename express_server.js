@@ -38,21 +38,9 @@ function getUserByEmail(users, email) {
       return users[user];
     }
   }
-}
-
-/* function getUserByEmail(users, email) {
-  const user = users[id];
-  for (const user in users) {
-    if (user.email === email) {
-      return user;
-    }
-  }
 
   return null;
-} */
-
-// function parameters order they're listed depends on company's convention/rules.
-
+}
 
 /* Function to authenticate user when logging in. Loops through users object.
 Calls getUserByEmail to check if user email exists.
