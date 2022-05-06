@@ -65,6 +65,7 @@ app.get("/urls", (req, res) => {
     urls: userUrls,
     user: users[userID]
   };
+  
   if (!templateVars.user) {
     templateVars.urls = [];
   }
@@ -227,7 +228,7 @@ app.post("/register", (req, res) => {
     email: userEmail,
     password: hashedPassword,
   };
-  
+
   req.session.user_id = uniqueUserID;
   res.redirect("/urls");
 });
