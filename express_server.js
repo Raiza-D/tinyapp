@@ -24,18 +24,8 @@ app.use(
 
 const bcrypt = require("bcryptjs");
 
-const { generateRandomString, getUserByEmail, authenticateUser } = require("./helpers.js");
+const { generateRandomString, getUserByEmail, authenticateUser, getUrlsForUser } = require("./helpers.js");
 
-
-const getUrlsForUser = function(urlDatabase, userID) {
-  const urls = {};
-  for (const shortURL in urlDatabase) {
-    if (urlDatabase[shortURL].userID === userID) {
-      urls[shortURL] = { longURL: urlDatabase[shortURL].longURL };
-    }
-  }
-  return urls;
-};
 
 const urlDatabase = {
   b2xVn2: {
