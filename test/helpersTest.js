@@ -20,12 +20,10 @@ const testUrlDatabase = {
     longURL: "http://www.lighthouselabs.ca",
     userID: "userRandomID"
   },
-
   "9sm5xK": {
     longURL: "http://www.google.com",
     userID: "user2RandomID"
   },
-
   "k71hb9": {
     longURL: "https://www.thelasthunt.com/",
     userID: "userRandomID"
