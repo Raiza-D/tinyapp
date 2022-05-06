@@ -1,6 +1,6 @@
 const { assert } = require("chai");
 
-const { getUserByEmail } = require("../helpers.js");
+const { generateRandomString, getUserByEmail } = require("../helpers.js");
 
 const testUsers = {
   userRandomID: {
@@ -14,6 +14,14 @@ const testUsers = {
     password: "dishwasher-funk",
   },
 };
+
+describe("generateRandomString", function() {
+  it("should return a random alphanumeric string", function() {
+    const alphaNum = generateRandomString();
+    console.log(alphaNum);
+    assert.isString(alphaNum);
+  });
+});
 
 describe("getUserByEmail", function() {
   it("should return the user object that contains the valid email", function() {
