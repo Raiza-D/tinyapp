@@ -60,15 +60,21 @@ app.get("/urls", (req, res) => {
   const userID = req.session.user_id;
 
   let userUrls = getUrlsForUser(urlDatabase, userID);
-  
+
   const templateVars = {
     urls: userUrls,
-    user: users[userID]
+    user: users[userID],
   };
-  
+
+  // if (!templateVars.user) {
+  //   templateVars.urls = [];
+  // }
+
   if (!templateVars.user) {
-    templateVars.urls = [];
+    res.status = 400;
+    return res.redirect("/login");
   }
+
   res.render("urls_index", templateVars);
 });
 
