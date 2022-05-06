@@ -33,31 +33,23 @@ function generateRandomString() {
 If yes, return user nested object within users database.
 If no, value is 'undefined' */
 function getUserByEmail(users, email) {
-  const values = Object.values(users);
+  for (const user in users) {
+    if (users[user].email === email) {
+      return users[user];
+    }
+  }
+}
 
-  for (const user of values) {
-    // const user = users[id];
+/* function getUserByEmail(users, email) {
+  const user = users[id];
+  for (const user in users) {
     if (user.email === email) {
       return user;
     }
   }
 
   return null;
-}
-
-/*
-function getUserByEmail(users, email) {
-  const user = users[id]
-  for (const user of users) {
-    if (user.email === email) {
-      return user;
-    }
-  }
-
-  return null;
-}
-
-*/
+} */
 
 // function parameters order they're listed depends on company's convention/rules.
 
