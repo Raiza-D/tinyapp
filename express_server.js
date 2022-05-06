@@ -24,7 +24,7 @@ app.use(
 
 const bcrypt = require("bcryptjs");
 
-const { getUserByEmail } = require("./helpers");
+const { getUserByEmail } = require("./helpers.js");
 
 const generateRandomString = function() {
   return (Math.random() + 1).toString(36).substring(6);
