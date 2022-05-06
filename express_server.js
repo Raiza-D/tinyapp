@@ -31,7 +31,7 @@ const generateRandomString = function() {
 /* Function scans users object. Checks if email entered upon registering or logging in exists.
 If yes, return user nested object within users database.
 If no, value is 'undefined' */
-const getUserByEmail = function(users, email) {
+/* const getUserByEmail = function(users, email) {
   for (const user in users) {
     if (users[user].email === email) {
       return users[user];
@@ -39,7 +39,18 @@ const getUserByEmail = function(users, email) {
   }
 
   return null;
+} */
+
+const getUserByEmail = function(users, email) {
+  for (const id in users) {
+    const user = users[id];
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
 }
+
 
 /* Function to authenticate user when logging in. Loops through users object.
 Calls getUserByEmail to check if user email exists.
