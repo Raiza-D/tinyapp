@@ -28,7 +28,8 @@ describe("getUserByEmail", function() {
   });
 
   it("should return null if the email does not exist within our users database", function() {
-    const user = getUserByEmail(testUsers, "someperson@gmail.com");
+    const user = getUserByEmail("someperson@gmail.com", testUsers);
+    console.log(user);
     const expectedOutput = null;
     assert.equal(user, expectedOutput);
   });
