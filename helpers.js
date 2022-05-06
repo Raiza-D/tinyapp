@@ -17,7 +17,23 @@ const getUserByEmail = function(email, users) {
   return null;
 };
 
+/* Function to authenticate user when logging in. Loops through users object.
+Calls getUserByEmail to check if user email exists.
+If yes, then compare password stored in database and compare with password entered.
+Returns user nested object within users database.
+If no, value return is 'undefined.' */
+const authenticateUser = function(users, emailEntered, passwordEntered) {
+  let userFound = getUserByEmail(emailEntered, users);
+  if (userFound && bcrypt.compareSync(passwordEntered, userFound.password)) {
+    return userFound;
+  }
+  
+  return null;
+};
+
+
 module.exports = {
   generateRandomString,
-  getUserByEmail
+  getUserByEmail,
+  authenticateUser
 };
