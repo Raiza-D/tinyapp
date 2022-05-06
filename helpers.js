@@ -5,9 +5,8 @@ const generateRandomString = function () {
   return (Math.random() + 1).toString(36).substring(6);
 };
 
-/* Function scans users object. Checks if email entered upon registering or logging in exists.
-If yes, return user nested object within users database.
-If no, value is 'undefined' */
+// Checks if email entered upon registering or logging in exists within users database.
+// If yes, return user object. If no, return null.
 const getUserByEmail = function(email, users) {
   for (const user in users) {
     if (users[user].email === email) {
