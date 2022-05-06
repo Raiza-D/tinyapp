@@ -66,10 +66,6 @@ app.get("/urls", (req, res) => {
     user: users[userID],
   };
 
-  // if (!templateVars.user) {
-  //   templateVars.urls = [];
-  // }
-
   if (!templateVars.user) {
     res.status = 400;
     return res.redirect("/login");
