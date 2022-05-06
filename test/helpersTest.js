@@ -36,6 +36,7 @@ const testUrlDatabase = {
 describe("generateRandomString", function() {
   it("should return a random alphanumeric string", function() {
     const alphaNum = generateRandomString();
+
     assert.isString(alphaNum);
   });
 });
@@ -47,16 +48,17 @@ describe("getUserByEmail", function() {
       id: "userRandomID",
       email: "user@example.com",
       password: "purple-monkey-dinosaur"
-    }
+    };
+
     assert.deepEqual(user, expectedValidUser);
   });
 
   it("should return null if the email does not exist within our users database", function() {
     const user = getUserByEmail("someperson@gmail.com", testUsers);
     const expectedOutput = null;
+
     assert.equal(user, expectedOutput);
   });
-
 });
 
 describe("getUrlsForUser", function() {
@@ -66,16 +68,18 @@ describe("getUrlsForUser", function() {
       b2xVn2: {
         longURL: "http://www.lighthouselabs.ca",
       },
-      "k71hb9": {
+      k71hb9: {
         longURL: "https://www.thelasthunt.com/"
       }
-    }
+    };
+
     assert.deepEqual(urls, expectedUrls);
   });
 
   it("should return an empty object {} if there are NO urls in the database for a specified user", function() {
     const urls = getUrlsForUser(testUrlDatabase, "a8n7rx");
-    const expectedUrls = {}
+    const expectedUrls = {};
+
     assert.deepEqual(urls, expectedUrls);
   });
 });
