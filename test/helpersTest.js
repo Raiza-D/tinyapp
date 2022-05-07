@@ -3,12 +3,12 @@ const { assert } = require("chai");
 const { generateRandomString, getUserByEmail, getUrlsForUser } = require("../helpers.js");
 
 const testUsers = {
-  userRandomID: {
+  "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
     password: "purple-monkey-dinosaur",
   },
-  user2RandomID: {
+  "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
     password: "dishwasher-funk",
