@@ -11,7 +11,7 @@ const cookieSession = require("cookie-session");
 app.use(
   cookieSession({
     name: "session",
-    keys:  ["abc123", "random"]
+    keys: ["abc123", "random"]
   })
 );
 
