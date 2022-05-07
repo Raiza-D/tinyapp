@@ -22,3 +22,6 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 - Install all dependencies (using the `npm install` command).
 - Run the development web server using the `node express_server.js` command.
+
+## Side Notes
+- `cookie-parser` is NOT needed as a Dependency. Purposely left it installed as a package and listed in my `package.json` file for project evaluation purposes only during my time at Lighthouse Labs. This package was required at the starting stages of the project's development, but was then replaced with `cookie-session`.
