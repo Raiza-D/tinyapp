@@ -5,7 +5,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 ## Final Product
 
 !["Logged in view. Table listing short URLs and corresponding long URLs, along with Edit and Delete functionalities."](https://github.com/Raiza-D/tinyapp/blob/main/docs/TinyApp-LoggedIn-Index.png?raw=true)
-!["screenshot description"](#)
+!["Logged in view of page where can update the long URL for an existing short URL."](https://github.com/Raiza-D/tinyapp/blob/main/docs/TinyApp-LoggedIn-EditUrl.png?raw=true)
 
 ## Dependencies
 
