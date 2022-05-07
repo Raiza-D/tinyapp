@@ -74,20 +74,6 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-// Handles request when user clicks on 'Create New URL'
-app.get("/urls/new", (req, res) => {
-  const userID = req.session.user_id;
-  const templateVars = {
-    user: users[userID]
-  };
-
-  if (!templateVars.user) {
-    return res.redirect("/login");
-  }
-
-  res.render("urls_new", templateVars);
-});
-
 // Handles request when user clicks on Submit button to generate shortURL
 app.post("/urls", (req, res) => {
   const userID = req.session.user_id;
@@ -103,6 +89,20 @@ app.post("/urls", (req, res) => {
   urlDatabase[shortURL] = url;
 
   res.redirect(`/urls/${shortURL}`);
+});
+
+// Handles request when user clicks on 'Create New URL'
+app.get("/urls/new", (req, res) => {
+  const userID = req.session.user_id;
+  const templateVars = {
+    user: users[userID]
+  };
+
+  if (!templateVars.user) {
+    return res.redirect("/login");
+  }
+
+  res.render("urls_new", templateVars);
 });
 
 // Handles request when user navigates to specified short URL page
@@ -122,17 +122,19 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-// Handles request when user navigates to /u/:shortURL path on browser
-// User directed to longURL website
-app.get("/u/:shortURL", (req, res) => {
-  const shortURL = req.params.shortURL;
+// Handles request when user clicks on Edit button on urls_show page to update longURL
+app.post("/urls/:shortURL", (req, res) => {
+  const userID = req.session.user_id;
+  const loggedInUser = users[userID];
 
-  if (!urlDatabase[shortURL]) {
-    return res.send("shortURL entered invalid.");
+  if (!loggedInUser) {
+    return res.status(401).send("Error. Must login or register for an account.\n");
   }
 
-  const longURL = urlDatabase[shortURL].longURL;
-  res.redirect(longURL);
+  const shortURL = req.params.shortURL;
+  const revisedURL = req.body.longURL;
+  urlDatabase[shortURL].longURL = revisedURL;
+  res.redirect("/urls");
 });
 
 // Handles request when user clicks on delete button on index page
@@ -149,22 +151,29 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 });
 
-// Handles request when user clicks on Edit button on urls_show page to update longURL
-app.post("/urls/:shortURL", (req, res) => {
-  const userID = req.session.user_id;
-  const loggedInUser = users[userID];
+// Handles request when user navigates to /u/:shortURL path on browser
+// User directed to longURL website
+app.get("/u/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
 
-  if (!loggedInUser) {
-    return res.status(401).send("Error. Must login or register for an account.\n");
+  if (!urlDatabase[shortURL]) {
+    return res.send("shortURL entered invalid.");
   }
 
-  const shortURL = req.params.shortURL;
-  const revisedURL = req.body.longURL;
-  urlDatabase[shortURL].longURL = revisedURL;
-  res.redirect("/urls");
+  const longURL = urlDatabase[shortURL].longURL;
+  res.redirect(longURL);
 });
 
-// Handles request to login
+// Handles request when user clicks on 'Login' link top right of navigation bar
+app.get("/login", (req, res) => {
+  const userID = req.session.user_id;
+  const templateVars = {
+    user: users[userID],
+  };
+  res.render("urls_login", templateVars);
+});
+
+// Handles request when user clicks on 'Login' button in Login page
 app.post("/login", (req, res) => {
   const emailEntered = req.body.email;
   const passwordEntered = req.body.password;
@@ -235,14 +244,7 @@ app.post("/register", (req, res) => {
   res.redirect("/urls");
 });
 
-app.get("/login", (req, res) => {
-  const userID = req.session.user_id;
-  const templateVars = {
-    user: users[userID],
-  };
-  res.render("urls_login", templateVars);
-});
-
+// Server listening to provided port
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
