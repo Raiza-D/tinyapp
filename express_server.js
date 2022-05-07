@@ -219,9 +219,6 @@ app.post("/register", (req, res) => {
 
   let user = getUserByEmail(userEmail, users);
 
-  console.log(user);
-  console.log(users);
-
   if (!userEmail || !userPassword) {
     res.statusCode = 400;
     return res.send(`Error. Status code: ${res.statusCode}. Email and password fields cannot be empty.`);
